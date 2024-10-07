@@ -1,0 +1,147 @@
+---
+title: "Tarea4_Andres_Quesada"
+author: "Andrés Alejandro Quesada Quirós"
+date: "`r Sys.Date()`"
+output: 
+  html_document: 
+    toc: true
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<center>
+
+# *¿Qué nos pueden decir los datos sobre el naufragio del RMS Titanic?.*
+
+</center>
+
+**Fuentes de información.**
+
+[Wikipedia](https://es.wikipedia.org/wiki/RMS_Titanic)
+
+[National Geografic](https://historia.nationalgeographic.com.es/a/historia-titanic-tragedia-barco-insumergible_16344)
+
+<center>
+
+![](Titanic.jpg)
+
+</center>
+
+## 1. Aspectos generales sobre el RMS Titanic
+
+El RMS Titanic fue un transatlántico británico, el mayor barco de pasajeros del mundo al finalizar su construcción, naufragó en las aguas del océano Atlántico durante la noche del 14 y la madrugada del 15 de abril de 1912, mientras realizaba su viaje inaugural desde Southampton a Nueva York, tras chocar con un iceberg. En el hundimiento murieron 1496 personas de las 2208 que iban a bordo, lo que convierte a esta catástrofe en uno de los naufragios más mortales de la historia ocurridos en tiempos de paz.
+
+## 2. Aspectos constructivos del buque transatlantico.
+
+Construido entre 1909 y 1912 en los astilleros de Harland & Wolff de Belfast, el Titanic constituía el segundo buque de un trío de grandes transatlánticos (siendo el primero el RMS Olympic y el tercero el HMHS Britannic), propiedad de la compañía naviera White Star Line, conocidos como la clase Olympic. Todos los buques transatlanticos seguían el mismo diseño de base, sin embargo, a los barcos posteriores (RMS Titanic y al HMHS Britannic) se le agregaron mejores tomando como base las experiencias con los barcos anteriores.
+
+<center>
+
+![](barcos.PNG)
+
+</center>
+
+Todo ello hizo que aumentase el tonelaje del barco respecto a su hermano mayor hasta que se convirtió en “el objeto móvil más grande jamás creado”: 46.328 toneladas de peso, 270 metros de longitud y 53 de altura.
+
+<center>
+
+![](barcos2.PNG)
+
+</center>
+
+## 3. Salida al mar y choque con el iceberg
+
+Tras zarpar de Southampton el 10 de abril de 1912, el Titanic recaló en Cherburgo (Francia) y en Queenstown (actual Cobh), en Irlanda, antes de poner rumbo al océano Atlántico. A las 23:40 del 14 de abril, cuatro días después de zarpar y a unos 600 km al sur de Terranova, el buque chocó contra un iceberg. La colisión abrió varias planchas del casco en el lado de estribor bajo la línea de flotación, a lo largo de cinco de sus dieciséis compartimentos estancos, que comenzaron a inundarse. Durante dos horas y media el barco se fue hundiendo gradualmente por su sección de proa mientras la popa se elevaba, durante ese tiempo varios cientos de pasajeros y tripulantes fueron evacuados en los botes salvavidas, de los cuales casi ninguno fue ocupado hasta su máxima capacidad.
+
+Un número muy elevado de hombres perecieron debido al estricto protocolo de salvamento que se siguió en el proceso de evacuación, conocido como «Las mujeres y los niños primero» A las 2:17 del 15 de abril, el barco se partió en dos y se hundió con cientos de personas todavía a bordo. La mayoría de los que quedaron flotando en la superficie fallecieron de hipotermia, aunque algunos consiguieron ser rescatados por los botes salvavidas. 712 supervivientes fueron recogidos por el transatlántico RMS Carpathia a las 4:00.
+
+<center>
+
+![](ruta.png)
+
+</center>
+
+<center>
+
+## 4. Análisis de datos sobre los pasajeros a bordo. {.tabset}
+
+### 4.1 Aspectos generales de los datos a analizar.
+
+La tabla de datos contiene observaciones sobre los pasajeros del Titanic. Cada fila es una serie de observaciónes sobre un pasajero. La tabla contiene 12 columnas y 1309 observaciones, las variables son:
+
+•	**PassegerId:** El código de identificación del pasajero (valor único).
+
+•	**Survived:** Variable factor, 1 (el pasajero sobrevivió) 0 (el pasajero no sobrevivió).
+
+•	**Pclass:** En que clase viajaba el pasajero (1 = primera, 2 = segunda, 3 = tercera).
+
+•	**Name:** Nombre del pasajero (valor único). 
+
+•	**Sex:** Sexo del pasajero.
+
+•	**Age:** Edad del pasajero.
+
+•	**SibSp:** Cantidad de hermanos o cónyuges a bordo del Titanic.
+
+•	**Parch:** Cantidad de padres o hijos a bordo del Titanic.
+
+•	**Ticket:** Número de tiquete (valor único).
+
+•	**Fare:** Tarifa del pasajero.
+
+•	**Cabin:** Número de cabina (valor único).
+
+•	**Embarked:** Puerto donde embarco el pasajero (C = Cherbourg, Q = Queenstown, S = Southampton).
+
+### 4.2 Tabla de datos sobre los pasajeros del Titanic.
+
+```{r Tabla de datos, echo=FALSE}
+
+PASAJEROS <- read.csv("titanic.csv", sep = ",", header = TRUE)
+PASAJEROS
+```
+
+### 4.3 Análisis de datos sobre los pasajeros del Titanic.
+
+Según los datos de los pasajeros a bordo del RMS Titanic se puede comprobar un aspecto interesante, el cual es que la mayoria de pasajeros eran adultos jovenes o adultos, y en menor medida iban a bordo adultos mayores y niños, esto se puede comprobar al realizar un distribución de edades de los pasajeros.
+
+```{r edades, echo=FALSE}
+
+library(ggplot2)
+
+ggplot(data = PASAJEROS, mapping = aes(x = Age))  +
+  geom_histogram() +
+  labs(title = "Grafico 4.3.1: Distribucion de las edades de los pasajeros a bordo del Titanic", 
+       y = " Cantidad de pasajeros según edad",
+       x = "Edades de los pasajero") +
+  theme(plot.title = element_text(hjust = .5),
+        panel.grid = element_blank())
+```
+
+Esto coincide con el hecho de que el Titanic era un buque que transportaba principalmente personas que se desplazaban hacia Estados Unidos para migrar y buscar mejores oportunidades de vida.
+
+Sin embargo, con el choque del Titanic contra el iceberg, muchas vidas se perdieron, de acuerdo con los datos, la cantidad de pasajeros que fallecieron fue mucho mayor que la cantidad de pasajeros que sobrevivieron al hundimiento del RMS Titanic, esto demuestra lo trágico del incidente. 
+
+```{r distribución, echo = FALSE}
+
+library(ggplot2)
+
+ggplot(data = PASAJEROS, mapping = aes(x = Survived))  +
+  geom_histogram() +
+  labs(title = "4.3.2: Distribucion de pasajeros fallecidos y sobrevivientes", y = "Condicion del pasajero",
+       x = "Pasajero", caption = "El valor de 0 indica que el pasajero fallecio y el 1 indica que el pasajero sobrevivio") +
+         theme(plot.title = element_text(hjust = .5),
+               panel.grid = element_blank(), 
+               plot.caption = element_text(hjust = .5)) 
+```
+
+El incidente del Titanic demuestra la importancia de mejorar las medidas de evacuación ante posibles emergencias en condiciones maritimas.
+
+## 5. Conclusiones
+
+El análisis de datos es crucial en la toma de decisiones informadas, ya que permite identificar patrones, tendencias y relaciones ocultas en grandes volúmenes de información. A través de este proceso, las organizaciones pueden optimizar sus operaciones, mejorar la eficiencia, predecir resultados futuros y adaptar sus estrategias para lograr ventajas competitivas. Además, en un mundo cada vez más impulsado por la información, el análisis de datos es esencial para abordar desafíos complejos y crear soluciones innovadoras basadas en evidencia cuantitativa.
+
+
